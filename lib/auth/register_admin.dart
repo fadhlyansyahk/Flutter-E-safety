@@ -2,15 +2,13 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Services/auth_services.dart';
 import '../Services/globals.dart';
 import '../models/user.dart';
 import '../rounded_button.dart';
-import 'home_screen.dart';
-import 'login_screen.dart';
+import '../screens/home_screen.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key}) : super(key: key);
@@ -39,7 +37,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
       Map responseMap = jsonDecode(response.body);
       if (response.statusCode == 200) {
         Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => HomeScreen()),
+            MaterialPageRoute(builder: (context) => const HomeScreen()),
             (route) => false);
       } else {
         errorSnackBar(context, responseMap.values.first[0]);
@@ -56,19 +54,19 @@ class _RegisterScreenState extends State<RegisterScreen> {
       builder: (BuildContext context, AsyncSnapshot<UserWithToken> snapshot) {
         // AsyncSnapshot<Your object type>
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
               child: CircularProgressIndicator(
             color: Colors.blue,
             backgroundColor: Colors.white,
           ));
         } else {
-          if (snapshot.hasError)
+          if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
-          else {
-            var _user = snapshot.data;
+          } else {
+            var user = snapshot.data;
 
-            if (_user!.message == null) {
-              return HomeScreen();
+            if (user!.message == null) {
+              return const HomeScreen();
             } else {
               return Scaffold(
                 appBar: AppBar(
@@ -172,11 +170,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
-    if (token == null) {
-      token = 'invalid';
-    }
+    token ??= 'invalid';
 
-    var url = Uri.parse('${baseURL}auth/check-token?token=${token}');
+    var url = Uri.parse('${baseURL}auth/check-token?token=$token');
     http.Response response = await http.post(
       url,
       headers: headers,

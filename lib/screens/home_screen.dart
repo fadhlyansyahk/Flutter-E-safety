@@ -1,7 +1,8 @@
 import 'dart:convert';
 
-import 'package:api2/Services/auth_services.dart';
-import 'package:api2/screens/login_screen.dart';
+import 'package:api2/auth/login_screen.dart';
+import 'package:api2/screens/admin/home_admin.dart';
+import 'package:api2/screens/users/user_home.dart';
 import 'package:flutter/material.dart';
 
 import 'package:http/http.dart' as http;
@@ -23,68 +24,22 @@ class HomeScreen extends StatelessWidget {
       builder: (BuildContext context, AsyncSnapshot<UserWithToken> snapshot) {
         // AsyncSnapshot<Your object type>
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
+          return const Center(child: CircularProgressIndicator());
         } else {
-          if (snapshot.hasError)
+          if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
-          else {
-            var _user = snapshot.data;
+          } else {
+            var user = snapshot.data;
 
-            if (_user!.message == null) {
-              if (_user.user?.level == 'ADMIN') {
-                return Scaffold(
-                  appBar: AppBar(
-                    actions: [
-                      IconButton(
-                          icon: Icon(
-                            Icons.logout,
-                          ),
-                          onPressed: () {
-                            AuthServices.logout();
-
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const LoginScreen(),
-                                ));
-                          })
-                    ],
-                  ),
-                  backgroundColor: Colors.blue,
-                  body: Center(
-                    child: Text('HOMEPAGE ADMIN'),
-                  ),
-                );
+            if (user!.message == null) {
+              if (user.user?.level == 'ADMIN') {
+                return const HomeAdmin(); // Halaman Admin
               } else {
-                return Scaffold(
-                  appBar: AppBar(
-                    actions: [
-                      IconButton(
-                          icon: Icon(
-                            Icons.logout,
-                          ),
-                          onPressed: () {
-                            AuthServices.logout();
-
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const LoginScreen(),
-                                ));
-                          })
-                    ],
-                  ),
-                  backgroundColor: Colors.blue,
-                  body: Center(
-                    child: Text('HOMEPAGE USER'),
-                  ),
-                );
+                return const HomeUser(); // Halaman User
               }
             }
 
-            return LoginScreen();
+            return const LoginScreen();
           } // snapshot.data  :- get your object which is pass from your downloadData() function
         }
       },
@@ -95,11 +50,9 @@ class HomeScreen extends StatelessWidget {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
-    if (token == null) {
-      token = 'invalid';
-    }
+    token ??= 'invalid';
 
-    var url = Uri.parse('${baseURL}auth/check-token?token=${token}');
+    var url = Uri.parse('${baseURL}auth/check-token?token=$token');
     http.Response response = await http.post(
       url,
       headers: headers,

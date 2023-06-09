@@ -1,8 +1,4 @@
-import 'package:api2/screens/home_screen.dart';
-import 'package:api2/screens/login_screen.dart';
-import 'package:api2/screens/register_screen.dart';
-import 'package:api2/screens/register_screen_user.dart';
-
+import 'package:api2/auth/login_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {

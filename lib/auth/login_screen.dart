@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:api2/screens/register_screen.dart';
-import 'package:api2/screens/register_screen_user.dart';
+import 'package:api2/auth/register_admin.dart';
+import 'package:api2/auth/register_user.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -10,7 +10,7 @@ import '../Services/auth_services.dart';
 import '../Services/globals.dart';
 import '../models/user.dart';
 import '../rounded_button.dart';
-import 'home_screen.dart';
+import '../screens/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -51,19 +51,19 @@ class _LoginScreenState extends State<LoginScreen> {
       builder: (BuildContext context, AsyncSnapshot<UserWithToken> snapshot) {
         // AsyncSnapshot<Your object type>
         if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(
+          return const Center(
               child: CircularProgressIndicator(
             color: Colors.purple,
             backgroundColor: Colors.white,
           ));
         } else {
-          if (snapshot.hasError)
+          if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
-          else {
-            var _user = snapshot.data;
+          } else {
+            var user = snapshot.data;
 
-            if (_user!.message == null) {
-              return HomeScreen();
+            if (user!.message == null) {
+              return const HomeScreen();
             } else {
               return Scaffold(
                   appBar: AppBar(
@@ -149,7 +149,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Text('test'),
+                        const Text('test'),
                       ],
                     ),
                   ));
@@ -164,11 +164,9 @@ class _LoginScreenState extends State<LoginScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
-    if (token == null) {
-      token = 'invalid';
-    }
+    token ??= 'invalid';
 
-    var url = Uri.parse('${baseURL}auth/check-token?token=${token}');
+    var url = Uri.parse('${baseURL}auth/check-token?token=$token');
     http.Response response = await http.post(
       url,
       headers: headers,

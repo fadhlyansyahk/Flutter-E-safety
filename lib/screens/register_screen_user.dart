@@ -45,7 +45,7 @@ class _RegisterScreenState extends State<RegisterScreenUser> {
         errorSnackBar(context, responseMap.values.first[0]);
       }
     } else {
-      errorSnackBar(context, 'email not valid');
+      errorSnackBar(context, 'Di isi dulu dong');
     }
   }
 

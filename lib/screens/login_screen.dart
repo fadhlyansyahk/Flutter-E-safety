@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:api2/screens/register_screen.dart';
 import 'package:api2/screens/register_screen_user.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -20,6 +21,8 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
+  final usernameController = TextEditingController();
+  final passwordController = TextEditingController();
   String _username = '';
   String _password = '';
 
@@ -67,7 +70,6 @@ class _LoginScreenState extends State<LoginScreen> {
             } else {
               return Scaffold(
                   appBar: AppBar(
-                    backgroundColor: Colors.black,
                     centerTitle: true,
                     elevation: 0,
                     title: const Text(
@@ -85,25 +87,48 @@ class _LoginScreenState extends State<LoginScreen> {
                         const SizedBox(
                           height: 20,
                         ),
-                        TextField(
-                          decoration: const InputDecoration(
-                            hintText: 'Enter your Username',
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          onChanged: (value) {
-                            _username = value;
-                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: TextField(
+                              decoration: InputDecoration(
+                                icon: Icon(FontAwesomeIcons.user),
+                                border: InputBorder.none,
+                                hintText: 'Username',
+                              ),
+                              onChanged: (value) {
+                                _username = value;
+                              },
+                            ),
+                          ),
                         ),
                         const SizedBox(
-                          height: 30,
+                          height: 20,
                         ),
-                        TextField(
-                          obscureText: true,
-                          decoration: const InputDecoration(
-                            hintText: 'Enter your password',
+                        Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            border: Border.all(color: Colors.blueGrey),
+                            borderRadius: BorderRadius.circular(12),
                           ),
-                          onChanged: (value) {
-                            _password = value;
-                          },
+                          child: Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 20),
+                            child: TextField(
+                              obscureText: true,
+                              decoration: InputDecoration(
+                                  icon: Icon(FontAwesomeIcons.lock),
+                                  border: InputBorder.none,
+                                  hintText: 'Password'),
+                              onChanged: (value) {
+                                _password = value;
+                              },
+                            ),
+                          ),
                         ),
                         const SizedBox(
                           height: 30,
@@ -132,6 +157,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
+                        SizedBox(
+                          height: 20,
+                        ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -149,7 +177,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                 fontWeight: FontWeight.bold),
                           ),
                         ),
-                        Text('test'),
                       ],
                     ),
                   ));

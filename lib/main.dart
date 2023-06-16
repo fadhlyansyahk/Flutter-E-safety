@@ -1,7 +1,4 @@
-import 'package:api2/screens/home_screen.dart';
 import 'package:api2/screens/login_screen.dart';
-import 'package:api2/screens/register_screen.dart';
-import 'package:api2/screens/register_screen_user.dart';
 
 import 'package:flutter/material.dart';
 
@@ -14,7 +11,10 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return MaterialApp(
+      theme: ThemeData(
+        brightness: Brightness.dark,
+      ),
       debugShowCheckedModeBanner: false,
       home: LoginScreen(),
     );

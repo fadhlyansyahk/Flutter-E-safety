@@ -69,115 +69,156 @@ class _LoginScreenState extends State<LoginScreen> {
               return HomeScreen();
             } else {
               return Scaffold(
-                  appBar: AppBar(
-                    centerTitle: true,
-                    elevation: 0,
-                    title: const Text(
-                      'Login',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  body: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Column(
-                      children: [
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.blueGrey),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                icon: Icon(FontAwesomeIcons.user),
-                                border: InputBorder.none,
-                                hintText: 'Username',
+                  backgroundColor: Colors.grey[350],
+                  body: SingleChildScrollView(
+                    child: SafeArea(
+                      child: Center(
+                        child: Column(
+                          children: [
+                            Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Image.asset(
+                                    "images/bumnlogo.png",
+                                    height: 150,
+                                    width: 125,
+                                  ),
+                                  SizedBox(
+                                    width: 50,
+                                  ),
+                                  Image.asset(
+                                    "images/baratalogo.png",
+                                    height: 150,
+                                    width: 125,
+                                  ),
+                                ]),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Text(
+                              "Aplikasi Report! ",
+                              style: TextStyle(
+                                fontSize: 30,
+                                fontWeight: FontWeight.bold,
                               ),
-                              onChanged: (value) {
-                                _username = value;
-                              },
                             ),
-                          ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            border: Border.all(color: Colors.blueGrey),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: TextField(
-                              obscureText: true,
-                              decoration: InputDecoration(
-                                  icon: Icon(FontAwesomeIcons.lock),
-                                  border: InputBorder.none,
-                                  hintText: 'Password'),
-                              onChanged: (value) {
-                                _password = value;
-                              },
+                            const SizedBox(
+                              height: 10,
                             ),
-                          ),
+                            Text(
+                              "Silakan Login ",
+                              style: TextStyle(
+                                fontSize: 25,
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 25,
+                            ),
+                            Padding(
+                              padding: EdgeInsets.symmetric(horizontal: 20),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.blueGrey),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child: TextField(
+                                    decoration: InputDecoration(
+                                      icon: Icon(
+                                        FontAwesomeIcons.user,
+                                        color: Colors.black,
+                                      ),
+                                      border: InputBorder.none,
+                                      hintText: 'Username',
+                                    ),
+                                    onChanged: (value) {
+                                      _username = value;
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 20,
+                            ),
+                            Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 20),
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(color: Colors.blueGrey),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 20),
+                                  child: TextField(
+                                    obscureText: true,
+                                    decoration: InputDecoration(
+                                        icon: Icon(
+                                          FontAwesomeIcons.lock,
+                                          color: Colors.black,
+                                        ),
+                                        border: InputBorder.none,
+                                        hintText: 'Password'),
+                                    onChanged: (value) {
+                                      _password = value;
+                                    },
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            RoundedButton(
+                              btnText: 'LOG IN',
+                              onBtnPressed: () => loginPressed(),
+                            ),
+                            const SizedBox(
+                              height: 30,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const RegisterScreen(),
+                                    ));
+                              },
+                              child: const Text(
+                                'Belum Punya Akun Admin?',
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (BuildContext context) =>
+                                          const RegisterScreenUser(),
+                                    ));
+                              },
+                              child: const Text(
+                                'Belum Punya Akun?',
+                                style: TextStyle(
+                                    decoration: TextDecoration.underline,
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                            ),
+                          ],
                         ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        RoundedButton(
-                          btnText: 'LOG IN',
-                          onBtnPressed: () => loginPressed(),
-                        ),
-                        const SizedBox(
-                          height: 30,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const RegisterScreen(),
-                                ));
-                          },
-                          child: const Text(
-                            'Belum Punya Akun Admin?',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 20,
-                        ),
-                        GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const RegisterScreenUser(),
-                                ));
-                          },
-                          child: const Text(
-                            'Belum Punya Akun?',
-                            style: TextStyle(
-                                decoration: TextDecoration.underline,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ));
             }

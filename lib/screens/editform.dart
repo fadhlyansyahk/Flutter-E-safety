@@ -92,7 +92,7 @@ class _EditFormState extends State<EditForm> {
                 _deskripsi = widget.fotos.deskripsi;
                 return Scaffold(
                   appBar: AppBar(title: Text('Edit Form')),
-                  body: Padding(
+                  body: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
@@ -102,7 +102,6 @@ class _EditFormState extends State<EditForm> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.black,
                             border: Border.all(color: Colors.blueGrey),
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -126,7 +125,6 @@ class _EditFormState extends State<EditForm> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.black,
                             border: Border.all(color: Colors.blueGrey),
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -150,7 +148,6 @@ class _EditFormState extends State<EditForm> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.black,
                             border: Border.all(color: Colors.blueGrey),
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -174,7 +171,6 @@ class _EditFormState extends State<EditForm> {
                         ),
                         Container(
                           decoration: BoxDecoration(
-                            color: Colors.black,
                             border: Border.all(color: Colors.blueGrey),
                             borderRadius: BorderRadius.circular(12),
                           ),
@@ -239,34 +235,6 @@ class _EditFormState extends State<EditForm> {
             }
           }
         });
-  }
-
-  /// Get from gallery
-  _getFromGallery() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.gallery,
-      maxWidth: 100,
-      maxHeight: 100,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        imageFile = File(pickedFile.path);
-      });
-    }
-  }
-
-  /// Get from Camera
-  _getFromCamera() async {
-    PickedFile? pickedFile = await ImagePicker().getImage(
-      source: ImageSource.camera,
-      maxWidth: 100,
-      maxHeight: 100,
-    );
-    if (pickedFile != null) {
-      setState(() {
-        imageFile = File(pickedFile.path);
-      });
-    }
   }
 
   Future<InputFoto> getUserFromToken() async {

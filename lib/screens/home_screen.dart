@@ -51,7 +51,8 @@ class _HomeScreenState extends State<HomeScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var token = prefs.getString('token');
 
-    var url = Uri.parse('http://10.0.2.2:8000/api/foto?token=${token!}');
+    // var url = Uri.parse('http://10.0.2.2:8000/api/foto?token=${token!}');
+    var url = Uri.parse('http://192.168.4.25:8000/api/foto?token=${token!}');
     var response = await http.get(url);
     var data = json.decode(response.body);
     return data;
@@ -84,7 +85,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
             title: Text('Apakah anda ingin menghapus form ini?'),
             content: Container(
-              height: MediaQuery.of(context).size.height / 6,
+              height: MediaQuery.of(context).size.height / 7,
               child: Column(
                 children: [
                   ElevatedButton(
@@ -140,6 +141,7 @@ class _HomeScreenState extends State<HomeScreen> {
             if (_user!.message == null) {
               if (_user.user?.level == 'ADMIN') {
                 return Scaffold(
+                  //admin page
                   appBar: AppBar(),
                   drawer: SafeArea(
                       child: Drawer(
@@ -148,7 +150,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         DrawerHeader(
                           child: ListTile(
                             title: Text(
-                              'Admin',
+                              'Hi, Welcome Back ${_user.user?.username}!',
                               style: TextStyle(
                                 fontSize: 20,
                               ),
@@ -168,7 +170,6 @@ class _HomeScreenState extends State<HomeScreen> {
                           },
                           leading: Icon(
                             Icons.logout,
-                            color: Colors.black,
                           ),
                           title: Text(
                             'Logout',
@@ -182,6 +183,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   )),
                   // backgroundColor: Colors.grey[400],
                   floatingActionButton: FloatingActionButton(
+                    // foregroundColor: Colors.white,
+                    // backgroundColor: Colors.black,
                     onPressed: () {
                       Navigator.push(
                           context,
@@ -202,10 +205,11 @@ class _HomeScreenState extends State<HomeScreen> {
                               // print(url);
                               var urlSplitted = url.split("public");
                               // print(urlSplitted);
-                              var BASE_URL = "http://10.0.2.2:8000";
+                              // var BASE_URL = "http://10.0.2.2:8000"; //emulator
+                              var BASE_URL = "http://192.168.4.25:8000";
                               // print(BASE_URL + urlSplitted[1]);
                               return Card(
-                                // color: Colors.black,
+                                color: Colors.grey[600],
                                 child: ListTile(
                                   trailing: Row(
                                     mainAxisSize: MainAxisSize.min,
@@ -237,26 +241,36 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 )),
                                               ));
                                         },
-                                        icon: const Icon(Icons.edit),
+                                        icon: const Icon(Icons.edit,
+                                            color: Colors.white),
                                       ),
-                                      // IconButton(
-                                      //   onPressed: () => delForm(snapshot
-                                      //       .data['fotos'][index]['id']),
-                                      //   icon: const Icon(Icons.delete),
-                                      // ),
                                       IconButton(
                                         onPressed: () {
                                           myAlert2(snapshot.data['fotos'][index]
                                               ['id']);
                                         },
-                                        icon: const Icon(Icons.delete),
+                                        icon: const Icon(
+                                          Icons.delete,
+                                          color: Colors.white,
+                                        ),
                                       ),
                                     ],
                                   ),
                                   title: Text(
-                                      snapshot.data['fotos'][index]['kasus']),
-                                  subtitle: Text(snapshot.data['fotos'][index]
-                                      ['deskripsi']),
+                                    snapshot.data['fotos'][index]['kasus'],
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    snapshot.data['fotos'][index]['tanggal'],
+                                    style: TextStyle(
+                                        color: Colors.white,
+                                        fontWeight: FontWeight.w400,
+                                        fontSize: 18),
+                                  ),
                                   onTap: () {
                                     Navigator.push(
                                       context,
@@ -291,29 +305,128 @@ class _HomeScreenState extends State<HomeScreen> {
                       }),
                 );
               } else {
+                //USER PAGE
                 return Scaffold(
-                  appBar: AppBar(
-                    actions: [
-                      IconButton(
-                          icon: Icon(
+                  appBar: AppBar(),
+                  drawer: SafeArea(
+                      child: Drawer(
+                    child: Column(
+                      children: [
+                        DrawerHeader(
+                          child: ListTile(
+                            title: Text(
+                              'Hi, Welcome Back ${_user.user?.username}!',
+                              style: TextStyle(
+                                fontSize: 20,
+                              ),
+                            ),
+                          ),
+                        ),
+                        ListTile(
+                          onTap: () {
+                            AuthServices.logout();
+                            Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return LoginScreen();
+                                },
+                              ),
+                            );
+                          },
+                          leading: Icon(
                             Icons.logout,
                           ),
-                          onPressed: () {
-                            AuthServices.logout();
-
-                            Navigator.pushReplacement(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) =>
-                                      const LoginScreen(),
-                                ));
-                          })
-                    ],
+                          title: Text(
+                            'Logout',
+                            style: TextStyle(
+                              fontSize: 18,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  )),
+                  floatingActionButton: FloatingActionButton(
+                    // foregroundColor: Colors.black,
+                    // backgroundColor: Colors.white,
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (BuildContext context) => InputForm(),
+                          ));
+                    },
+                    child: const Icon(Icons.add),
                   ),
-                  backgroundColor: Colors.blue,
-                  body: Center(
-                    child: Text('HOMEPAGE USER'),
-                  ),
+                  body: FutureBuilder(
+                      future: getAllData(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          return ListView.builder(
+                            itemCount: snapshot.data['fotos'].length,
+                            itemBuilder: (context, index) {
+                              var url = snapshot.data['fotos'][index]['foto'];
+                              // print(url);
+                              var urlSplitted = url.split("public");
+                              // print(urlSplitted);
+                              // var BASE_URL = "http://10.0.2.2:8000"; //emulator
+                              var BASE_URL = "http://192.168.4.25:8000";
+                              // print(BASE_URL + urlSplitted[1]);
+                              return Card(
+                                color: Colors.grey[600],
+                                child: ListTile(
+                                  trailing: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [],
+                                  ),
+                                  title: Text(
+                                    snapshot.data['fotos'][index]['kasus'],
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    snapshot.data['fotos'][index]['tanggal'],
+                                    style: TextStyle(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.w400,
+                                      fontSize: 18,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (BuildContext context) {
+                                        return DetailPage(
+                                            fotos: Fotos(
+                                          snapshot.data['fotos'][index]['id'],
+                                          snapshot.data['fotos'][index]
+                                                  ['id_user']
+                                              .toString(),
+                                          snapshot.data['fotos'][index]
+                                              ['kasus'],
+                                          snapshot.data['fotos'][index]
+                                              ['lokasi'],
+                                          snapshot.data['fotos'][index]
+                                              ['tanggal'],
+                                          snapshot.data['fotos'][index]
+                                              ['deskripsi'],
+                                          snapshot.data['fotos'][index]['foto'],
+                                        ));
+                                      }),
+                                    );
+                                  },
+                                ),
+                              );
+                            },
+                          );
+                        } else {
+                          return const Divider();
+                        }
+                      }),
                 );
               }
             }

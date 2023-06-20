@@ -121,105 +121,27 @@ class _InputFormState extends State<InputForm> {
                 return HomeScreen();
               } else {
                 return Scaffold(
-                  appBar: AppBar(title: Text('Input Form')),
-                  body: Padding(
+                  appBar: AppBar(
+                    title: Text('Input Form'),
+                    centerTitle: true,
+                  ),
+                  body: SingleChildScrollView(
                     padding: const EdgeInsets.symmetric(horizontal: 20),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(vertical: 10),
+                        SizedBox(
+                          height: 5,
                         ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            border: Border.all(color: Colors.blueGrey),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                icon: Icon(Icons.report_problem),
-                                border: InputBorder.none,
-                                hintText: 'kasus',
-                              ),
-                              onChanged: (value) {
-                                _kasus = value;
-                              },
-                            ),
+                        Text(
+                          'note: Harap Isi Foto Terlebih Dahulu!',
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
                           ),
                         ),
                         SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            border: Border.all(color: Colors.blueGrey),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                icon: Icon(FontAwesomeIcons.mapLocationDot),
-                                border: InputBorder.none,
-                                hintText: 'lokasi',
-                              ),
-                              onChanged: (value) {
-                                _lokasi = value;
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            border: Border.all(color: Colors.blueGrey),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: TextField(
-                              decoration: InputDecoration(
-                                icon: Icon(FontAwesomeIcons.calendar),
-                                border: InputBorder.none,
-                                hintText: 'tanggal',
-                              ),
-                              onChanged: (value) {
-                                _tanggal = value;
-                              },
-                            ),
-                          ),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            color: Colors.black,
-                            border: Border.all(color: Colors.blueGrey),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 20),
-                            child: TextField(
-                              keyboardType: TextInputType.multiline,
-                              maxLines: null,
-                              decoration: InputDecoration(
-                                icon: Icon(Icons.description),
-                                border: InputBorder.none,
-                                hintText: 'deskripsi',
-                              ),
-                              onChanged: (value) {
-                                _deskripsi = value;
-                              },
-                            ),
-                          ),
+                          height: 20,
                         ),
                         ElevatedButton(
                           onPressed: () {
@@ -227,11 +149,6 @@ class _InputFormState extends State<InputForm> {
                           },
                           child: Text('Upload Foto'),
                         ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        //jika gambar ada ditampilkan
-                        //jika gambar kosong ada notif
                         imageFile != null
                             ? Padding(
                                 padding:
@@ -251,6 +168,115 @@ class _InputFormState extends State<InputForm> {
                                 "Mana Fotonya ?",
                                 style: TextStyle(fontSize: 20),
                               ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(vertical: 10),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: 'Kasus',
+                              labelStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              hintText: 'kasus',
+                              icon: Icon(
+                                Icons.report_problem,
+                                color: Colors.black,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              _kasus = value;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: 'Lokasi',
+                              labelStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              hintText: 'lokasi',
+                              icon: Icon(
+                                FontAwesomeIcons.mapLocationDot,
+                                color: Colors.black,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              _lokasi = value;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
+                            decoration: InputDecoration(
+                              labelText: 'Tanggal',
+                              labelStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              hintText: 'tanggal',
+                              icon: Icon(
+                                FontAwesomeIcons.calendar,
+                                color: Colors.black,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              _tanggal = value;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(horizontal: 10),
+                          child: TextField(
+                            keyboardType: TextInputType.multiline,
+                            maxLines: null,
+                            decoration: InputDecoration(
+                              labelText: 'Deskripsi',
+                              labelStyle: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                              ),
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(15),
+                              ),
+                              hintText: 'deskripsi',
+                              icon: Icon(
+                                Icons.description,
+                                color: Colors.black,
+                              ),
+                            ),
+                            onChanged: (value) {
+                              _deskripsi = value;
+                            },
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         SizedBox(
                           height: 20,
                         ),
@@ -270,8 +296,8 @@ class _InputFormState extends State<InputForm> {
   _getFromGallery() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
       source: ImageSource.gallery,
-      maxWidth: 100,
-      maxHeight: 100,
+      maxWidth: 1000,
+      maxHeight: 1000,
     );
     if (pickedFile != null) {
       setState(() {
@@ -284,8 +310,8 @@ class _InputFormState extends State<InputForm> {
   _getFromCamera() async {
     PickedFile? pickedFile = await ImagePicker().getImage(
       source: ImageSource.camera,
-      maxWidth: 100,
-      maxHeight: 100,
+      maxWidth: 1000,
+      maxHeight: 1000,
     );
     if (pickedFile != null) {
       setState(() {
